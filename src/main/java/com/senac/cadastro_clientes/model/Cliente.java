@@ -26,6 +26,7 @@ public class Cliente {
     private List<Endereco> enderecos;
     @Column(name = "dt_cadastro")
     private LocalDateTime dataCadastro;
+
     public Cliente() {
     }
 
