@@ -23,23 +23,27 @@ public class ClienteService {
 
         clientePersist.setDataCadastro(LocalDateTime.now());
 
-        Cliente clienteResult = clienteRepository.save(clientePersist);
-
-        if (clientePersist.getNome() == null) {
+        //Validação de nome
+        if (clientePersist.getNome() == null || clientePersist.getNome().isEmpty()) {
             throw new Exception("O nome deve ser informado.");
         }
 
-        if (clientePersist.getSobrenome() == null) {
+        //Validação de sobrenome
+        if (clientePersist.getSobrenome() == null ||clientePersist.getSobrenome().isEmpty()) {
             throw new Exception("O sobrenome deve ser informado.");
         }
 
-        if (clientePersist.getEmail() == null) {
+        //Validação de e-mail único
+        if (clientePersist.getEmail() == null || clientePersist.getEmail().isEmpty()) {
             throw new Exception("O email é obrigatório e deve ser único.");
         }
 
-        if (clientePersist.getSexo() != "masculino" && clientePersist.getSexo() != "feminino") {
-            clienteResult.setSexo("Não Informado");
+        //Validação de sexo
+        if (!"masculino".equals(clientePersist.getSexo()) && !"feminino".equals(clientePersist.getSexo())) {
+            clientePersist.setSexo("Não Informado");
         }
+
+        Cliente clienteResult = clienteRepository.save(clientePersist);
 
         return ClienteMapper.clienteToClienteResponseDom(clienteResult);
     }
@@ -65,6 +69,4 @@ public class ClienteService {
 
         clienteRepository.deleteById(id);
     }
-
-
 }
