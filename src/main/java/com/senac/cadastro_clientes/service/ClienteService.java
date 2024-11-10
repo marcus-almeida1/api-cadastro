@@ -21,8 +21,6 @@ public class ClienteService {
 
         Cliente clientePersist = ClienteMapper.clienteRequestDomToCliente(cliente);
 
-        clientePersist.setDataCadastro(LocalDateTime.now());
-
         //Validação de nome
         if (clientePersist.getNome() == null || clientePersist.getNome().isEmpty()) {
             throw new Exception("O nome deve ser informado.");
@@ -42,6 +40,9 @@ public class ClienteService {
         if (!"masculino".equals(clientePersist.getSexo()) && !"feminino".equals(clientePersist.getSexo())) {
             clientePersist.setSexo("Não Informado");
         }
+
+        //Setar data de cadastro
+        clientePersist.setDataCadastro(LocalDateTime.now());
 
         Cliente clienteResult = clienteRepository.save(clientePersist);
 
