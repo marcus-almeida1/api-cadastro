@@ -1,5 +1,6 @@
 package com.senac.cadastro_clientes.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -22,7 +23,8 @@ public class Cliente {
     private String sexo;
     @Column(name = "dt_nascimento")
     private LocalDate dataNascimento;
-    @OneToMany(mappedBy = "cliente")
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.MERGE, orphanRemoval = true)
+    @JsonManagedReference
     private List<Endereco> enderecos;
     @Column(name = "dt_cadastro")
     private LocalDateTime dataCadastro;

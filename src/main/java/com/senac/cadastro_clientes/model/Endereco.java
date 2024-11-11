@@ -1,5 +1,6 @@
 package com.senac.cadastro_clientes.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -20,6 +21,7 @@ public class Endereco {
     private String uf;
     @ManyToOne
     @JoinColumn(name = "cliente_id", nullable = false)
+    @JsonBackReference
     private Cliente cliente;
     @Column(name = "dt_cadastro")
     private LocalDateTime dataCadastro;
