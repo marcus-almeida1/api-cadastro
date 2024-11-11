@@ -21,6 +21,8 @@ public class ClienteService {
 
         Cliente clientePersist = ClienteMapper.clienteRequestDomToCliente(cliente);
 
+        Cliente clienteExistente = clienteRepository.findByEmail(clientePersist.getEmail());
+
         //Validação de nome
         if (clientePersist.getNome() == null || clientePersist.getNome().isEmpty()) {
             throw new Exception("O nome deve ser informado.");
@@ -34,6 +36,10 @@ public class ClienteService {
         //Validação de e-mail único
         if (clientePersist.getEmail() == null || clientePersist.getEmail().isEmpty()) {
             throw new Exception("O email é obrigatório e deve ser único.");
+        }
+
+        if (clienteExistente != null) {
+            throw new Exception("E-mail já cadastrado.");
         }
 
         //Validação de sexo
