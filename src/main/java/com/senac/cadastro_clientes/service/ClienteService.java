@@ -23,21 +23,14 @@ public class ClienteService {
 
         Cliente clienteExistente = clienteRepository.findByEmail(clientePersist.getEmail());
 
-        //Validação de nome
-        if (clientePersist.getNome() == null || clientePersist.getNome().isEmpty()) {
-            throw new Exception("O nome deve ser informado.");
+        //Validação campos obrigatórios
+        if (    clientePersist.getNome().isBlank() || clientePersist.getNome().isEmpty() ||
+                clientePersist.getSobrenome().isBlank() || clientePersist.getSobrenome().isEmpty() ||
+                clientePersist.getEmail().isBlank() || clientePersist.getEmail().isEmpty()) {
+            throw new Exception("Os campos (Nome, Sobrenome e E-mail) devem ser informados.");
         }
 
-        //Validação de sobrenome
-        if (clientePersist.getSobrenome() == null ||clientePersist.getSobrenome().isEmpty()) {
-            throw new Exception("O sobrenome deve ser informado.");
-        }
-
-        //Validação de e-mail único
-        if (clientePersist.getEmail() == null || clientePersist.getEmail().isEmpty()) {
-            throw new Exception("O email é obrigatório e deve ser único.");
-        }
-
+        //Validação de e-mail já cadastrado
         if (clienteExistente != null) {
             throw new Exception("E-mail já cadastrado.");
         }

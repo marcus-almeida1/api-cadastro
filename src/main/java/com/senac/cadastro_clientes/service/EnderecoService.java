@@ -38,6 +38,14 @@ public class EnderecoService {
             throw new Exception("O cliente já possui o limite máximo de 5 endereços.");
         }
 
+        //Validação de campos obrigatórios
+        if (    enderecoPersist.getRua().isBlank() || enderecoPersist.getRua().isEmpty() ||
+                enderecoPersist.getBairro().isBlank()  || enderecoPersist.getBairro().isEmpty() ||
+                enderecoPersist.getCidade().isBlank()  || enderecoPersist.getCidade().isEmpty() ||
+                enderecoPersist.getUf().isBlank()  || enderecoPersist.getUf().isEmpty()) {
+            throw new Exception("Os campos (Rua, Bairro, Cidade, UF) devem ser informados.");
+        }
+
         // Setar data de cadastro
         enderecoPersist.setDataCadastro(LocalDateTime.now());
 
