@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -29,26 +30,28 @@ public class EnderecoService {
         Cliente cliente = clienteRepository.findById(enderecoPersist.getCliente().getId())
                 .orElseThrow(() -> new Exception("Cliente não encontrado"));
 
-        //Validação de campos obrigatórios
-        if (    enderecoPersist.getRua() == null || enderecoPersist.getRua().isEmpty() ||
-                enderecoPersist.getBairro() == null || enderecoPersist.getBairro().isEmpty() ||
-                enderecoPersist.getCidade() == null || enderecoPersist.getCidade().isEmpty() ||
-                enderecoPersist.getUf() == null || enderecoPersist.getUf().isEmpty()) {
-            throw new Exception("Todos os campos de endereço (Rua, Bairro, Cidade, UF) devem ser informados.");
-        }
+        List<Endereco> enderecos = cliente.getEnderecos();
+        Integer limiteEndereco = enderecos.size();
 
-        // Validação do limite de endereços para o cliente (máximo de 5 endereços)
-        Integer limiteEndereco = enderecoRepository.countClienteById(cliente.getId());
+        // Valida o limite de 5 endereços
         if (limiteEndereco >= 5) {
             throw new Exception("O cliente já possui o limite máximo de 5 endereços.");
         }
 
-        //Setar data de cadastro
+        //Validação de campos obrigatórios
+        if (    enderecoPersist.getRua().isBlank() || enderecoPersist.getRua().isEmpty() ||
+                enderecoPersist.getBairro().isBlank()  || enderecoPersist.getBairro().isEmpty() ||
+                enderecoPersist.getCidade().isBlank()  || enderecoPersist.getCidade().isEmpty() ||
+                enderecoPersist.getUf().isBlank()  || enderecoPersist.getUf().isEmpty()) {
+            throw new Exception("Os campos (Rua, Bairro, Cidade, UF) devem ser informados.");
+        }
+
+        // Setar data de cadastro
         enderecoPersist.setDataCadastro(LocalDateTime.now());
 
-        Endereco clienteResult = enderecoRepository.save(enderecoPersist);
+        Endereco enderecoResult = enderecoRepository.save(enderecoPersist);
 
-        return EnderecoMapper.enderecoToEnderecoResponseDom(clienteResult);
+        return EnderecoMapper.enderecoToEnderecoResponseDom(enderecoResult);
     }
 
     public EnderecoResponseDom atualizarEndereco(Long id, EnderecoRequestDom alterado) throws Exception {
