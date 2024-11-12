@@ -21,25 +21,29 @@ public class ClienteService {
 
         Cliente clientePersist = ClienteMapper.clienteRequestDomToCliente(cliente);
 
+        Cliente clienteExistente = clienteRepository.findByEmail(clientePersist.getEmail());
+
+        //Validação campos obrigatórios
+        if (    clientePersist.getNome().isBlank() || clientePersist.getNome().isEmpty() ||
+                clientePersist.getSobrenome().isBlank() || clientePersist.getSobrenome().isEmpty() ||
+                clientePersist.getEmail().isBlank() || clientePersist.getEmail().isEmpty()) {
+            throw new Exception("Os campos (Nome, Sobrenome e E-mail) devem ser informados.");
+        }
+
+        //Validação de e-mail já cadastrado
+        if (clienteExistente != null) {
+            throw new Exception("E-mail já cadastrado.");
+        }
+
+        //Validação de sexo
+        if (!"masculino".equals(clientePersist.getSexo()) && !"feminino".equals(clientePersist.getSexo())) {
+            clientePersist.setSexo("Não Informado");
+        }
+
+        //Setar data de cadastro
         clientePersist.setDataCadastro(LocalDateTime.now());
 
         Cliente clienteResult = clienteRepository.save(clientePersist);
-
-        if (clientePersist.getNome() == null) {
-            throw new Exception("O nome deve ser informado.");
-        }
-
-        if (clientePersist.getSobrenome() == null) {
-            throw new Exception("O sobrenome deve ser informado.");
-        }
-
-        if (clientePersist.getEmail() == null) {
-            throw new Exception("O email é obrigatório e deve ser único.");
-        }
-
-        if (clientePersist.getSexo() != "masculino" && clientePersist.getSexo() != "feminino") {
-            clienteResult.setSexo("Não Informado");
-        }
 
         return ClienteMapper.clienteToClienteResponseDom(clienteResult);
     }
@@ -65,6 +69,4 @@ public class ClienteService {
 
         clienteRepository.deleteById(id);
     }
-
-
 }

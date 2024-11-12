@@ -12,6 +12,7 @@ public class EnderecoMapper {
             output.setBairro(input.getBairro());
             output.setCidade(input.getCidade());
             output.setUf(input.getUf());
+            output.setCliente(input.getCliente());
 
             return output;
         }
