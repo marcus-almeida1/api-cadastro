@@ -13,6 +13,10 @@ public class Cliente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
     private Long id;
+    @Column(nullable = false, unique = true)
+    private String login;
+    @Column(nullable = false)
+    private String senha;
     @Column(nullable = false)
     private String nome;
     @Column(nullable = false)
@@ -41,6 +45,22 @@ public class Cliente {
         this.dataNascimento = dataNascimento;
         this.enderecos = enderecos;
         this.dataCadastro = dataCadastro;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 
     public Long getId() {

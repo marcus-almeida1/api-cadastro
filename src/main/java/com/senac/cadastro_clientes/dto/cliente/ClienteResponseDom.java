@@ -6,12 +6,30 @@ import java.time.LocalDateTime;
 public class ClienteResponseDom {
 
     private Long id;
+    private String login;
+    private String token;
     private String nome;
     private String sobrenome;
     private String email;
     private String sexo;
     private LocalDate dataNascimento;
     private LocalDateTime dataCadastro;
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     public Long getId() {
         return id;

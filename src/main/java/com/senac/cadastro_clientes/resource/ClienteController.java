@@ -28,7 +28,14 @@ public class ClienteController {
             return ResponseEntity.badRequest().body("Erro não mapeado: " + e.getMessage());
         }
     }
-
+    @PostMapping("/login")
+    public  ResponseEntity<?> login(@RequestBody ClienteRequestDom cliente) {
+        try {
+            return ResponseEntity.ok(clienteService.loginUsuarios(cliente));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Erro não mapeado "+ e.getMessage());
+        }
+    }
     @GetMapping("/listar")
     public ResponseEntity<List<Cliente>> buscarTodosClientes() {
             List<Cliente> clientes = clienteRepository.findAll();
