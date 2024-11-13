@@ -1,6 +1,6 @@
 package com.senac.cadastro_clientes.config;
 
-import com.senac.cadastro_clientes.dto.jwt.TokenService;
+import com.senac.cadastro_clientes.jwt.TokenService;
 import com.senac.cadastro_clientes.model.Cliente;
 import com.senac.cadastro_clientes.repository.ClienteRepository;
 import jakarta.servlet.FilterChain;

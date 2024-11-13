@@ -1,4 +1,4 @@
-package com.senac.cadastro_clientes.dto.jwt;
+package com.senac.cadastro_clientes.jwt;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;

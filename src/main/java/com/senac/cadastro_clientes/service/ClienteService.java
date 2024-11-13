@@ -3,11 +3,9 @@ package com.senac.cadastro_clientes.service;
 import com.senac.cadastro_clientes.dto.cliente.ClienteMapper;
 import com.senac.cadastro_clientes.dto.cliente.ClienteRequestDom;
 import com.senac.cadastro_clientes.dto.cliente.ClienteResponseDom;
-import com.senac.cadastro_clientes.dto.jwt.TokenService;
 import com.senac.cadastro_clientes.model.Cliente;
 import com.senac.cadastro_clientes.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -18,11 +16,6 @@ public class ClienteService {
 
     @Autowired
     private ClienteRepository clienteRepository;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-    @Autowired
-    private TokenService tokenService;
-
     public ClienteResponseDom salvar(ClienteRequestDom cliente) throws Exception {
 
         Cliente clientePersist = ClienteMapper.clienteRequestDomToCliente(cliente);
@@ -49,31 +42,10 @@ public class ClienteService {
         //Setar data de cadastro
         clientePersist.setDataCadastro(LocalDateTime.now());
 
-        //Setar senha
-        clientePersist.setSenha(passwordEncoder.encode(cliente.getSenha()));
-
         Cliente clienteResult = clienteRepository.save(clientePersist);
 
         return ClienteMapper.clienteToClienteResponseDom(clienteResult);
     }
-    public ClienteResponseDom loginUsuarios(ClienteRequestDom cliente) throws Exception {
-        Optional<Cliente> clienteResult = clienteRepository.findByLogin(cliente.getLogin());
-        if (clienteResult.isPresent()) {
-            if (passwordEncoder.matches(cliente.getSenha(), clienteResult.get().getSenha())) {
-                String token = tokenService.gerarToken(clienteResult.get());
-                ClienteResponseDom clienteRetorno = ClienteMapper.clienteToClienteResponseDom(clienteResult.get());
-
-                clienteRetorno.setToken(token);
-
-                return clienteRetorno;
-            }
-
-            throw new Exception("Senha invalida");
-        }
-
-        throw new Exception("Usuário não encontrado.");
-    }
-
     public ClienteResponseDom atualizarCliente(Long id, ClienteRequestDom alterado) throws Exception {
 
         Optional<Cliente> encontrado = clienteRepository.findById(id);
