@@ -7,9 +7,9 @@ spring:
     datasource:
         url: jdbc:postgresql://localhost:5432/cadastro-clientes
         username: postgres
-        password: renan
+        password: postgres
         driverClassName: org.postgresql.Driver
     security:
         token:
             secret: segredo
-            expiration_time: 120
+            expiration_time: 999
