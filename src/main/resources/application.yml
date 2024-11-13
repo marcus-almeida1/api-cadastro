@@ -12,4 +12,4 @@ spring:
     security:
         token:
             secret: segredo
-            expiration_time: 999
+            expiration_time: 120
