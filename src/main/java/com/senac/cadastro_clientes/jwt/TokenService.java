@@ -4,7 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.senac.cadastro_clientes.model.Cliente;
+import com.senac.cadastro_clientes.model.Usuario;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -19,13 +19,13 @@ public class TokenService {
     @Value("${spring.security.token.expiration_time}")
     private Long expirationTime;
 
-    public String gerarToken(Cliente cliente) throws Exception {
+    public String gerarToken(Usuario usuario) throws Exception {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
 
             String token = JWT.create()
                     .withIssuer("api-cadastro")
-                    .withSubject(cliente.getLogin())
+                    .withSubject(usuario.getLogin())
                     .withExpiresAt(this.gerarExpiracaoData())
                     .sign(algorithm);
             return token;
