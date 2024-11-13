@@ -1,8 +1,8 @@
 package com.senac.cadastro_clientes.config;
 
 import com.senac.cadastro_clientes.jwt.TokenService;
-import com.senac.cadastro_clientes.model.Cliente;
-import com.senac.cadastro_clientes.repository.ClienteRepository;
+import com.senac.cadastro_clientes.model.Usuario;
+import com.senac.cadastro_clientes.repository.UsuarioRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,11 +19,11 @@ import java.io.IOException;
 import java.util.Collections;
 
 @Component
-public class    SecurityFilter extends OncePerRequestFilter {
+public class SecurityFilter extends OncePerRequestFilter {
     @Autowired
     TokenService tokenService;
     @Autowired
-    ClienteRepository clienteRepository;
+    UsuarioRepository usuarioRepository;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -31,9 +31,9 @@ public class    SecurityFilter extends OncePerRequestFilter {
         var login = tokenService.validaToken(token);
 
         if(login != null){
-            Cliente cliente = clienteRepository.findByLogin(login).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+            Usuario usuario = usuarioRepository.findByLogin(login).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
             var authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
-            var authentication = new UsernamePasswordAuthenticationToken(cliente, null, authorities);
+            var authentication = new UsernamePasswordAuthenticationToken(usuario, null, authorities);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
         filterChain.doFilter(request, response);
