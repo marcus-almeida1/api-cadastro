@@ -3,7 +3,6 @@ package com.senac.cadastro_clientes.dto.cliente;
 import java.time.LocalDate;
 
 public class ClienteRequestDom {
-
     private String nome;
     private String sobrenome;
     private String email;

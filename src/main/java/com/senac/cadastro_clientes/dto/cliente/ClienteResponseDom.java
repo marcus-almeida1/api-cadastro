@@ -12,7 +12,6 @@ public class ClienteResponseDom {
     private String sexo;
     private LocalDate dataNascimento;
     private LocalDateTime dataCadastro;
-
     public Long getId() {
         return id;
     }

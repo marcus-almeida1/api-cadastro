@@ -16,7 +16,6 @@ public class ClienteService {
 
     @Autowired
     private ClienteRepository clienteRepository;
-
     public ClienteResponseDom salvar(ClienteRequestDom cliente) throws Exception {
 
         Cliente clientePersist = ClienteMapper.clienteRequestDomToCliente(cliente);
@@ -47,7 +46,6 @@ public class ClienteService {
 
         return ClienteMapper.clienteToClienteResponseDom(clienteResult);
     }
-
     public ClienteResponseDom atualizarCliente(Long id, ClienteRequestDom alterado) throws Exception {
 
         Optional<Cliente> encontrado = clienteRepository.findById(id);
